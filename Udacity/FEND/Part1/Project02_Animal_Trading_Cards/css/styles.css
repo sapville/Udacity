@@ -1,7 +1,14 @@
-/* @keyframes pic_switch {
-	from {opacity: 0;}
-	to {opacity: 1}; 
-} */
+@
+keyframes pic_switch {
+	from {opacity: 0;
+}
+
+to {
+	opacity: 1
+}
+
+;
+}
 .card {
 	display: block;
 	width: 300px;
@@ -34,13 +41,14 @@
 	left: 0;
 	opacity: 0;
 	transition: all 1s linear;
-	/*  	animation-name: pic_switch;
- 	animation-duration: 2s;
- 	animation-delay: 1s;
- 	animation-iteration-count: 2;
- 	animation-timing-function: linear;
- 	animation-direction: alternate; */}
- 
+	animation-name: pic_switch;
+	animation-duration: 0;
+	animation-delay: 1s;
+	animation-iteration-count: 2;
+	animation-timing-function: linear;
+	animation-direction: alternate;
+}
+
 .image_container:hover .eating_cat {
 	opacity: 1;
 }
@@ -52,7 +60,7 @@
 	text-align: justify;
 }
 
-.items_list{
+.items_list {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;

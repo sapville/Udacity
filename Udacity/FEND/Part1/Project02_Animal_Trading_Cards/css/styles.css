@@ -35,6 +35,10 @@ to {
 	cursor: pointer;
 }
 
+.proud_cat {
+	opacity: 1;
+}
+
 .eating_cat {
 	position: absolute;
 	top: 0;

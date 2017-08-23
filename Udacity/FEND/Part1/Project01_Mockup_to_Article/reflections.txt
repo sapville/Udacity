@@ -1,0 +1,29 @@
+You've learned a lot about web development so far. I want you to take a moment to write down your thoughts about web development here. Answer the following questions:
+  * What new skills have you learned?
+  * What has been easy?
+  * What has been difficult?
+  * How have you used the problem solving strategies from the first project to overcome challenges so far?
+
+---
+
+   * What new skills have you learned? 
++ The general understanding of what a web-page is. 
++ The main sources of information about HTML and basic ideas of how to use them. 
++ The ability to develop primitive web-pages and high expectations of further growth. 
+ 
+* What has been easy? 
+Well, the skill level required to enrol on the course is indicated as Intermediate 
+which assumes not only the ability to cope with loops, conditions etc but also to 
+work with sources of information. So, I wish the course was more challenging in terms 
+of giving tasks without offering solutions having in view that participants would find 
+them on their own. 
+ 
+* What has been difficult? 
+My English having got a bit rusty, so far the most difficult part has been outlining my 
+considerations in projects like this one. As a developer, I am more accustomed to writing 
+code rather than reflecting on my feelings about it. 
+ 
+* How have you used the problem solving strategies from the first project to overcome challenges so far? 
+Working on the current project I didn't encounter problems so huge that I had to apply 
+any strategies to solve them. The error highlighting built in Eclipse helped with the most of them. 
+The rest were dealt with online resources such as MDN, w3schools, Stack Overflow etc.

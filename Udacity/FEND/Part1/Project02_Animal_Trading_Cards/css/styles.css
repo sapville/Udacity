@@ -1,0 +1,69 @@
+@keyframes pic_switch {
+	from {opacity: 0;}
+	to {opacity: 1}; 
+}
+.card {
+	display: block;
+	width: 300px;
+	margin: auto;
+	padding: 5px 20px;
+	border: 1px solid #d4d4d4;
+	box-shadow: 7px 7px 5px #e9e9e9;
+}
+
+.image_container {
+	position: relative;
+	width: 100%;
+	right: 5px;
+	border: 5px solid #e9e9e9;
+}
+
+.image_caption {
+	padding: 0px 10px;
+	border: 1px outset #d4d4d4;
+	background-color: #e9e9e9;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	text-align: center;
+	cursor: pointer;
+}
+
+.eating_cat {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	transition: all 1s linear;
+ 	animation-name: pic_switch;
+ 	animation-duration: 2s;
+ 	animation-delay: 1s;
+ 	animation-iteration-count: 2;
+ 	animation-timing-function: linear;
+ 	animation-direction: alternate;
+ }
+ 
+.image_container:hover .eating_cat {
+	opacity: 1;
+}
+
+.description {
+	margin: 10px -5px;
+	padding: 0px 15px;
+	border: 1px solid #d4d4d4;
+	text-align: justify;
+}
+
+.items_list{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+
+.item_name {
+	font-weight: bold;
+}
+
+.simple_facts {
+	font-style: italic;
+}

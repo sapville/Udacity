@@ -35,7 +35,7 @@
 	left: 0;
 	opacity: 0;
 	visibilty: hidden;
-	transition: 5s ease;
+	transition: 5s ease 5s;
 	/*	animation-name: pic_switch;
 	animation-duration: 0;
 	animation-delay: 3s;

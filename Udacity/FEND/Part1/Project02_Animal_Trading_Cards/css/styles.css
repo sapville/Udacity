@@ -28,13 +28,12 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	transition: 2s linear;
+	transition: 1.5s cubic-bezier(0, 1, 1, 1);
 }
 
 .eating_cat {
 	display: block;
-	opacity: 0;
-	transition: 2s linear;
+	visibility: hidden;
 }
 
 .image_container:hover .proud_cat {
@@ -42,7 +41,7 @@
 }
 
 .image_container:hover .eating_cat {
-	opacity: 1;
+	visibility: visible;
 }
 
 .description {

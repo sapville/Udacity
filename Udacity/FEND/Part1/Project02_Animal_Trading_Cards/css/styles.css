@@ -42,8 +42,8 @@
 	opacity: 0;
 	transition: all 1s linear;
 	animation-name: pic_switch;
-	animation-duration: 2s;
-	animation-delay: 1s;
+	animation-duration: 1s;
+	animation-delay: 2s;
 	animation-iteration-count: 2;
 	animation-timing-function: linear;
 	animation-direction: alternate; 

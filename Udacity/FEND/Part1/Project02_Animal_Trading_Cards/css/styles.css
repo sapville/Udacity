@@ -1,8 +1,8 @@
-@keyframes pic_switch {
+/*@keyframes pic_switch {
 	from {opacity: 0;}
 	to {opacity: 1;}
 }
-
+*/
 .card {
 	display: block;
 	width: 300px;
@@ -41,12 +41,12 @@
 	left: 0;
 	opacity: 0;
  	transition: opacity 2s ease 0.1s; 
-	animation-name: pic_switch;
+/*	animation-name: pic_switch;
 	animation-duration: 0;
 	animation-delay: 3s;
 	animation-iteration-count: 2;
 	animation-timing-function: linear;
-	animation-direction: alternate; 
+	animation-direction: alternate; */
 }
 
 .image_container:hover .eating_cat {

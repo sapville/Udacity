@@ -13,13 +13,14 @@
 }
 
 .image_container {
-	position: relative;
+	position: relative; 
 	width: 100%;
 	right: 5px;
 	border: 5px solid #e9e9e9;
 }
 
 .image_caption {
+	display: block;
 	padding: 0px 10px;
 	border: 1px outset #d4d4d4;
 	background-color: #e9e9e9;
@@ -29,13 +30,19 @@
 	cursor: pointer;
 }
 
-.eating_cat {
-	position: absolute;
+.proud_cat {
+	display: block;
+ 	position: absolute;
 	top: 0;
-	left: 0;
-	opacity: 0;
+	left: 0; 
 	transition: 2s linear 2s;
-	overflow: hidden;
+}
+
+.eating_cat {
+/* 	position: absolute;
+	top: 0;
+	left: 0; */
+	display: block;
 	/*	animation-name: pic_switch;
 	animation-duration: 0;
 	animation-delay: 3s;
@@ -44,14 +51,8 @@
 	animation-direction: alternate; */
 }
 
-.proud_cat {
-	top: 0;
-	left: 0;
-	opacity: 1;
-}
-
-.image_container:hover .eating_cat {
-	opacity: 1;
+.image_container:hover .proud_cat {
+	opacity: 0;
 }
 
 .description {

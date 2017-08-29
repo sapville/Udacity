@@ -1,19 +1,4 @@
-.grid {
-	margin: auto;
-	padding: 1%;
-	/* width: 960px; */
-	
-}
-
-.text_right-aligned {
-	text-align: right;
-}
-
-.bold {
-	font-weight: bold;
-}
-
-.central_element {
-	margin: auto;
-	display: block;
+body {
+	margin: 2%;
+	font-family: Lato, sans-serif;
 }

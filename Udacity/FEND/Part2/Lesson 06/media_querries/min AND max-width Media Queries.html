@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)http://udacity.github.io/RWDF-samples/quizzes/media-queries-quiz.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>min AND max-width Media Queries</title>
+    <meta name="udacity-grader" content="media-queries-quiz.json" unit-tests="media-queries-quiz.js">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./min AND max-width Media Queries_files/default-styles.css">
+    <style type="text/css">
+      h1 {
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        font-size: 6em;
+        font-family: Roboto;
+        transition: all 0.5s;
+      }
+
+      @media screen and  (min-width: 0px) and (max-width: 400px) {
+      	body {
+      		background-color: red;
+      	}
+      }
+      @media screen and (min-width: 401px) and (max-width: 599px) {
+      	body {
+      		background-color: green;
+      	}
+      }
+      @media screen and (min-width: 600px) {
+      	body {
+      		background-color: blue;
+      	}
+      }
+        /*
+        This seems like a good place for code... Make sure you change the breakpoints!
+        */
+    </style>
+  <link rel="stylesheet" id="coToolbarStyle" href="chrome-extension://cjabmdjcfcfdmffimndhafhblfmpjdpe/toolbar/styles/placeholder.css" type="text/css"><script type="text/javascript" id="cosymantecbfw_removeToolbar">(function () {				var toolbarElement = {},					parent = {},					interval = 0,					retryCount = 0,					isRemoved = false;				if (window.location.protocol === 'file:') {					interval = window.setInterval(function () {						toolbarElement = document.getElementById('coFrameDiv');						if (toolbarElement) {							parent = toolbarElement.parentNode;							if (parent) {								parent.removeChild(toolbarElement);								isRemoved = true;								if (document.body && document.body.style) {									document.body.style.setProperty('margin-top', '0px', 'important');								}							}						}						retryCount += 1;						if (retryCount > 10 || isRemoved) {							window.clearInterval(interval);						}					}, 10);				}			})();</script><link rel="import" href="chrome-extension://melpgahbngpgnbhhccnopmlmpbmdaeoi/app/templates/feedback.html" id="udacity-test-widget"><script id="ud-grader-options">UdacityFEGradingEngine.turnOn();</script></head>
+  <body style="">
+    <div class="container">
+      <h1 class="yes">This is page content.</h1>
+      <p>media queries. Media queries. Media queries! MEDIA QUERIES!</p>
+    </div>
+  
+
+<script src="chrome-extension://melpgahbngpgnbhhccnopmlmpbmdaeoi/app/js/libs/GE.js" id="udacity-front-end-feedback"></script><script id="ud-19306166">UdacityFEGradingEngine.registerSuites("[{\n  \"name\": \"Media Queries Quiz\",\n  \"code\": \"BREAKingbadPOINTS\",\n  \"tests\": [\n    {\n      \"description\": \"Under 400px wide, the body is red\",\n      \"definition\": {\n        \"waitForEvent\": \"ud-small\",\n        \"exists\": true\n      }\n    },\n    {\n      \"description\": \"Between 401 and 599px wide, the body is green\",\n      \"definition\": {\n        \"waitForEvent\": \"ud-medium\",\n        \"exists\": true\n      }\n    },\n    {\n      \"description\": \"Greater than 600px wide, the body is blue\",\n      \"definition\": {\n        \"waitForEvent\": \"ud-large\",\n        \"exists\": true\n      }\n    }\n  ]\n}]");</script><test-widget></test-widget><script src="./min AND max-width Media Queries_files/media-queries-quiz.js.download" id="ud-32064531"></script><iframe class="mq-test" src="./min AND max-width Media Queries_files/saved_resource.html" style="position: absolute; left: 100%; width: 650px;"></iframe></body><div id="coFrameDiv" style="height:0px;display:none;"><iframe id="coToolbarFrame" src="./min AND max-width Media Queries_files/placeholder.html" style="height: 0px; width: 100%; display: none;"></iframe></div></html>

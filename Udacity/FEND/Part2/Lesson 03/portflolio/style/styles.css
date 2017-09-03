@@ -3,6 +3,15 @@ body {
 	font-family: Lato, sans-serif;
 }
 
-.img-featured-work {
-	margin-top: 24px;
+.first-row {
+	display: flex;
+	flex-wrap: nowrap;
 }
+
+.title {
+	width: 100%;
+}
+
+/* .img-featured-work {
+	margin-top: 24px;
+} */

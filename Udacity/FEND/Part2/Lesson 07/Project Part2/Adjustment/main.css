@@ -53,7 +53,7 @@ ul {
 }
 
 .header__inner {
-  max-width: 90%;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -81,7 +81,7 @@ ul {
  */
 
 .nav {
-  max-width: 90%;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -121,7 +121,7 @@ ul {
 
 main {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
-  max-width: 90%;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -373,4 +373,20 @@ footer li {
 footer a {
   text-decoration: none;
   color: #333;
+}
+
+@media screen and (max-width: 500px) {
+	.header__title {
+		font-size: 2em;
+	}
+    .nav_line {
+    	display: none;
+    }
+    .nav_icon {
+    	display: block;
+        width: 0;
+        overflow-x: hidden;
+        height: 100%;
+        position: absolute;
+		background-color: #111;    	}
 }

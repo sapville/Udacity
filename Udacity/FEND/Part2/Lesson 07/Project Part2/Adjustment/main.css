@@ -377,16 +377,5 @@ footer a {
 
 @media screen and (max-width: 500px) {
 	.header__title {
-		font-size: 2em;
+		font-size: 3em;
 	}
-    .nav_line {
-    	display: none;
-    }
-    .nav_icon {
-    	display: block;
-        width: 0;
-        overflow-x: hidden;
-        height: 100%;
-        position: absolute;
-		background-color: #111;    	}
-}

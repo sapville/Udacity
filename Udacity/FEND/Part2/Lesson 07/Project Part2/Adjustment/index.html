@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brighton Times</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="jscripts.js"></script>
     <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
@@ -20,6 +21,8 @@
     </header>
 
     <nav id="drawer" class="nav">
+<!-- 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->    
+		<span class="closebtn" onclick="closeNav()">&times;</span>    
       <ul class="nav__list">
         <li class="nav__item"><a href="#">News</a></li>
         <li class="nav__item"><a href="#">Events</a></li>
@@ -27,8 +30,10 @@
         <li class="nav__item"><a href="#">Blog</a></li>
       </ul>
     </nav>
-
-    <main>
+	
+	<span class="menu_button" onclick="openNav()">&#9776;</span>
+	
+    <main id="main">
       <section class="content">
         <section class="hero">
           <article class="description">

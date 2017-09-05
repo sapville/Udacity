@@ -1,12 +1,10 @@
 
 function openNav() {
-    document.getElementById("side-nav").style.width = "500px";
-    /*document.getElementById("main").style.marginLeft = "250px";*/
-    document.getElementById("main").style.opacity = "0";
+	document.getElementById("drawer").style.transform = "translate(0, 0)";
+	document.getElementById("main").style.opacity = "0.5";
 }
 
 function closeNav() {
-    document.getElementById("side-nav").style.width = "0";
-    /*document.getElementById("main").style.marginLeft = "0";*/
-    document.getElementById("main").style.opacity = "1";
+	document.getElementById("drawer").style.transform = "translate(-300px, 0)";
+	document.getElementById("main").style.opacity = "1";
 }    

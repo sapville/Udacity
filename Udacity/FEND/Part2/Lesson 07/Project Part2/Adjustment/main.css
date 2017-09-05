@@ -426,3 +426,32 @@ footer a {
 		display: none;
 	}
 }	
+@media screen and (min-width: 650px){
+	.content {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.hero {
+		width: 60%;
+	}
+	.top-news {
+		width: 40%;
+		padding: 0 1em;
+	}
+	.scores {
+		width: 60%;
+	}
+	.weather {
+		width: 40%;
+	}
+}
+@media screen and (min-width: 900px) {
+	#main {
+		width: 900px;
+		margin: auto;
+	}
+	.header {
+		width: 100%;
+		margin: 4px 0;
+	}
+}

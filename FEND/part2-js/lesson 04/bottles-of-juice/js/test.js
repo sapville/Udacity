@@ -13,7 +13,7 @@ function showResult() {
 
     output = num + ' ' + bottle + ' of juice on the wall! ' + num +
       ' ' + bottle + ' of juice! Take one down, pass it around... ' + (num - 1).valueOf() +
-      ' ' + minusBottle + ' of juice on the wall!';
+      ' ' + minusBottle + ' of juice on the wall! ';
     num--;
     console.log(output);
   }

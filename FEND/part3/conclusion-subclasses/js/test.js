@@ -79,6 +79,11 @@ function showResult() {
   PseudoDivClass.prototype.divide = function () {
     this.attr /= this.div;
   };
+  PseudoDivClass.prototype.add = function (number = 1) {
+    for (let i = 0; i < number; i++) {
+      PseudoSuperClass.prototype.add.call(this);
+    }
+  };
 
   const pseudoMult = new PseudoMultClass(2, 2);
   console.log('pseudoMult-before:', pseudoMult);
@@ -88,8 +93,63 @@ function showResult() {
 
   const pseudoDiv = new PseudoDivClass(2, 2);
   console.log('pseudoDiv-before:', pseudoDiv);
-  pseudoDiv.add();
+  pseudoDiv.add(2);
   pseudoDiv.divide();
   console.log(`pseudoDiv-after: ${pseudoDiv.attr}`);
+
+
+
+  /**
+   * ES6 class pattern
+   */
+  class NewSuperClass {
+    constructor(attr) {
+      this.attr = attr;
+    }
+    add() {
+      this.attr++;
+    }
+    substr() {
+      this.attr--;
+    }
+  }
+
+  class NewMultClass extends NewSuperClass {
+    constructor(attr, mult) {
+      super(attr);
+      this.mult = mult;
+    }
+    multiply() {
+      this.attr *= this.mult;
+    }
+  }
+
+  class NewDivClass extends NewSuperClass {
+    constructor(attr, div) {
+      super(attr);
+      this.div = div;
+    }
+    divide() {
+      this.attr /= this.div;
+    }
+    add(number = 1) {
+      for (var i = 0; i < number; i++) {
+        super.add();
+      }
+    }
+  }
+
+  const newMult = new NewMultClass(2, 2);
+  console.log('newMult-before:', newMult);
+  newMult.add();
+  newMult.multiply();
+  console.log(`newMult-after: ${newMult.attr}`);
+
+  const newDiv = new NewDivClass(2, 2);
+  console.log('newDiv-before:', newDiv);
+  newDiv.add(2);
+  newDiv.divide();
+  console.log(`newDiv-after: ${newDiv.attr}`);
+
 
 }

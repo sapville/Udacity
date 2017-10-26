@@ -75,19 +75,42 @@ function showResult() {
   /**
    * pseudoclassical class pattern
    */
-  const pseudoClass = function(attr) {
+  const PseudoClass = function(attr) {
     this.attr = attr;
   };
-  pseudoClass.prototype.add = function () {
+  PseudoClass.prototype.add = function() {
     this.attr++;
   };
-  pseudoClass.prototype.substr = function () {
+  PseudoClass.prototype.substr = function() {
     this.attr--;
   };
 
-  const pseudo = new pseudoClass(4);
+  const pseudo = new PseudoClass(4);
   console.log(`pseudo-before: ${pseudo.attr}`);
   pseudo.add();
   pseudo.substr();
   console.log(`pseudo-after: ${pseudo.attr}`);
+
+
+  /**
+   * ES6 class pattern
+   */
+  class NewClass {
+    constructor(attr) {
+      this.attr = attr;
+    }
+    add() {
+      this.attr++;
+    }
+    substr() {
+      this.attr--;
+    }
+  }
+
+  const newCl = new NewClass(4);
+  console.log(`new-before: ${newCl.attr}`);
+  pseudo.add();
+  pseudo.substr();
+  console.log(`new-after: ${newCl.attr}`);
+
 }

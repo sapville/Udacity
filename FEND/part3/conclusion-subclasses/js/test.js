@@ -133,7 +133,7 @@ function showResult() {
       this.attr /= this.div;
     }
     add(number = 1) {
-      for (var i = 0; i < number; i++) {
+      for (let i = 0; i < number; i++) {
         super.add();
       }
     }

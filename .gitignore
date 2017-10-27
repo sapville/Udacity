@@ -1,0 +1,5 @@
+.eslintrc.js
+lupaProject.json
+.idea/*
+node_modules/*
+.stylelintrc

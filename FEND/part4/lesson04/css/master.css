@@ -1,0 +1,8 @@
+.blue {
+  color: blue;
+}
+
+.fade {
+  transition-timing-function: linear;
+  transition-duration: 2s;
+}

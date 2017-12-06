@@ -1,0 +1,25 @@
+/* * {
+  border: solid red 1px;
+} */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.image {
+  width: 100%;
+}
+
+.counter {
+  text-align: center;
+  width: 100%;
+}
+
+.image img {
+  display: block;
+  margin: auto;
+  cursor: pointer;
+  width: 50%;
+}

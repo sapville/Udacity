@@ -1,18 +1,16 @@
-/* * {
+/*
+* {
   border: solid red 1px;
-} */
+}
+*/
 
 .container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
 }
 
 .image {
-  width: 100%;
-}
-
-.counter {
   text-align: center;
   width: 100%;
 }

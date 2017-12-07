@@ -1,15 +1,25 @@
 class Cat {
   constructor (name, id, image) {
-    this.counter = -1;
+    this.counter = 0;
     this.name = name;
     this.id = id;
     this.image = image;
   }
 
-  catClick () {
+  click () {
     this.counter++;
-    $('h1.' + this.id).text(`${this.name}: ${this.counter}`);
+    this.showTitle();
   }
+
+  show () {
+    $('.image>img').attr('src', `img/${this.image}`);
+    this.showTitle();
+  }
+
+  showTitle () {
+    $('.image>h1').text(`${this.name}: ${this.counter}`);
+  }
+
 }
 
 class App {
@@ -20,18 +30,23 @@ class App {
     this.cats.push(new Cat('Cuddle', 'cat3', 'cat3.jpg'));
     this.cats.push(new Cat('Shy-2', 'cat4', 'cat2.jpg'));
     this.cats.push(new Cat('Kitten-2', 'cat5', 'cat.jpg'));
+    this.shownCat = null;
   }
 
-  buildList() {
+  buildList () {
     const ul = $('.list>ul');
-    this.cats.forEach( (cat) => {
+    this.cats.forEach((cat) => {
       ul.append(`<li><a id="${cat.id}" href="#">${cat.name}</a></li>`);
     });
   }
 
   refClick (id) {
-    console.log(id);
-    // this.cats.find(cat => cat.id === id).catClick();
+    this.cats.find(cat => cat.id === id).show();
+    this.shownCat = id;
+  }
+
+  catClick () {
+    this.cats.find(cat => cat.id === this.shownCat).click();
   }
 }
 
@@ -39,13 +54,12 @@ function main () {
   const app = new App();
   app.buildList();
   app.refClick('cat1');
-  $('.list>ul>li>a').on('click', function() {
+  const refElems = $('.list>ul>li>a');
+  refElems.first().toggleClass('selected');
+  refElems.on('click', function () {
+    $('.list>ul>li>a').removeClass('selected');
+    $(this).addClass('selected');
     app.refClick($(this).attr('id'));
   });
-/*
-  app.imgClick('cat1');
-  app.imgClick('cat2');
-  $('img.cat1').click( () => {app.imgClick('cat1');});
-  $('img.cat2').click( () => {app.imgClick('cat2');});
-*/
+  $('.image>img').click(() => {app.catClick();});
 }

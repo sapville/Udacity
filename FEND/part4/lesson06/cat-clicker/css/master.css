@@ -10,14 +10,19 @@
   width: 100%;
 }
 
+.list {
+  text-align: left;
+  width: 20%;
+}
+
 .image {
   text-align: center;
-  width: 100%;
+  width: 80%;
 }
 
 .image img {
   display: block;
   margin: auto;
   cursor: pointer;
-  width: 50%;
+  width: 100%;
 }

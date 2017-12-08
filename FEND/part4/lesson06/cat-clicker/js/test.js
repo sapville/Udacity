@@ -1,65 +1,86 @@
-class Cat {
-  constructor (name, id, image) {
-    this.counter = 0;
-    this.name = name;
-    this.id = id;
-    this.image = image;
-  }
-
-  click () {
-    this.counter++;
-    this.showTitle();
-  }
-
-  show () {
-    $('.image>img').attr('src', `img/${this.image}`);
-    this.showTitle();
-  }
-
-  showTitle () {
-    $('.image>h1').text(`${this.name}: ${this.counter}`);
-  }
-
-}
-
-class App {
+class Data {
   constructor () {
     this.cats = [];
-    this.cats.push(new Cat('Kitten', 'cat1', 'cat.jpg'));
-    this.cats.push(new Cat('Shy', 'cat2', 'cat2.jpg'));
-    this.cats.push(new Cat('Cuddle', 'cat3', 'cat3.jpg'));
-    this.cats.push(new Cat('Shy-2', 'cat4', 'cat2.jpg'));
-    this.cats.push(new Cat('Kitten-2', 'cat5', 'cat.jpg'));
     this.shownCat = null;
   }
 
-  buildList () {
-    const ul = $('.list>ul');
-    this.cats.forEach((cat) => {
-      ul.append(`<li><a id="${cat.id}" href="#">${cat.name}</a></li>`);
+  addCat (name, id, image) {
+    this.cats.push({name, id, image, counter: 0});
+  }
+}
+
+class View {
+  constructor () {
+    this.refElems = undefined;
+    this.imgElem = undefined;
+  }
+
+  static drawListItem (id, name) {
+    $('.list>ul').append(`<li><a id="${id}" href="#">${name}</a></li>`);
+  }
+
+  postListBuilding () {
+    this.refElems = $('.list>ul>li>a');
+    this.refElems.first().toggleClass('selected');
+    this.imgElem = $('.image>img');
+  }
+
+  setEvents (handler) {
+    this.refElems.on('click', function () {
+      $('.list>ul>li>a').removeClass('selected');
+      $(this).addClass('selected');
+      handler.refClick($(this).attr('id'));
     });
+    this.imgElem.click(() => {handler.catClick();});
+  }
+
+  showCat (cat) {
+    this.imgElem.attr('src', `img/${cat.image}`);
+    View.showTitle(cat);
+  }
+
+  static showTitle (cat) {
+    $('.image>h1').text(`${cat.name}: ${cat.counter}`);
+  }
+}
+
+class App {
+  constructor (data, view) {
+    this.data = data;
+    this.view = view;
+  }
+
+  init () {
+    this.data.addCat('Kitten', 'cat1', 'cat.jpg');
+    this.data.addCat('Shy', 'cat2', 'cat2.jpg');
+    this.data.addCat('Cuddle', 'cat3', 'cat3.jpg');
+    this.data.addCat('Shy-2', 'cat4', 'cat2.jpg');
+    this.data.addCat('Kitten-2', 'cat5', 'cat.jpg');
+    this.buildList();
+    this.view.setEvents(this);
+    this.refClick('cat1');
+  }
+
+  buildList () {
+    this.data.cats.forEach((cat) => {
+      View.drawListItem(cat.id, cat.name);
+    });
+    this.view.postListBuilding();
   }
 
   refClick (id) {
-    this.cats.find(cat => cat.id === id).show();
-    this.shownCat = id;
+    this.view.showCat(this.data.cats.find(cat => cat.id === id));
+    this.data.shownCat = id;
   }
 
   catClick () {
-    this.cats.find(cat => cat.id === this.shownCat).click();
+    const cat = this.data.cats.find(cat => cat.id === this.data.shownCat);
+    cat.counter++;
+    View.showTitle(cat);
   }
 }
 
-function main () {
-  const app = new App();
-  app.buildList();
-  app.refClick('cat1');
-  const refElems = $('.list>ul>li>a');
-  refElems.first().toggleClass('selected');
-  refElems.on('click', function () {
-    $('.list>ul>li>a').removeClass('selected');
-    $(this).addClass('selected');
-    app.refClick($(this).attr('id'));
-  });
-  $('.image>img').click(() => {app.catClick();});
-}
+$(function () {
+  const app = new App(new Data(), new View());
+  app.init();
+});

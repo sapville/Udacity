@@ -9,14 +9,33 @@
 </head>
 <body>
 <main class="container">
-    <div class="list">
-        <h1>Cat list</h1>
-        <ul>
-        </ul>
+    <div class="section">
+        <div class="list sidebar">
+            <h1>Cat list</h1>
+            <ul>
+            </ul>
+        </div>
+        <div class="image main-area">
+            <h1></h1>
+            <img src="" alt="cat">
+        </div>
     </div>
-    <div class="image">
-        <h1></h1>
-        <img src="" alt="cat">
+    <div class="section">
+        <div class="sidebar">
+            <button class="c-button admin-switch" id="admin">Admin</button>
+        </div>
+        <div class="main-area admin-area">
+            <form>
+                <label for="name">Name</label>
+                <input type="text" id="name"> <br>
+                <label for="pic">Picture</label>
+                <input type="text" id="pic"> <br>
+                <label for="clicks">Clicks</label>
+                <input type="number" id="clicks"> <br>
+            </form>
+            <button class="c-button" id="cancel">Cancel</button>
+            <button class="c-button" id="save">Save</button>
+        </div>
     </div>
 </main>
 </body>

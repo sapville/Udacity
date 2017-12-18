@@ -4,13 +4,36 @@ google
 class Map {
   constructor () {
     this.home = {lat: 55.813044, lng: 37.572087};
-    this.map = new google.maps.Map($('#map').get(0), {
-      center: this.home,
-      zoom: 17
-    });
     this.markers = [];
     this.infoWindow = new google.maps.InfoWindow();
     this.bounds = new google.maps.LatLngBounds();
+    this.styledMapType = new google.maps.StyledMapType(
+      [
+        {
+          featureType: 'landscape.man_made',
+          elementType: 'geometry.fill',
+          stylers: [
+            {'color': '#ff0000'},
+            {'saturation': -50}
+          ]
+        },
+        {
+          featureType: 'water',
+          elementType: 'geometry.fill',
+          stylers: [{color: '#00ff00'}]
+        }
+      ],
+      {name: 'Красивый стиль'}
+    );
+    this.map = new google.maps.Map($('#map').get(0), {
+      center: this.home,
+      zoom: 17,
+      mapTypeControlOptions: {
+        mapTypeIds: ['roadmap', 'styled_map']
+      }
+    });
+    this.map.mapTypes.set('styled_map', this.styledMapType);
+    // this.map.setMapTypeId('styled_map');
   }
 
   addMarker (name, lt, ln, caption) {
@@ -19,7 +42,6 @@ class Map {
       caption: caption,
       marker: new google.maps.Marker({
         position: {lat: lt, lng: ln},
-        // map: this.map,
         animation: google.maps.Animation.DROP
       })
     });

@@ -5,6 +5,10 @@ class Map {
   constructor () {
     this.home = {lat: 55.813044, lng: 37.572087};
     this.markers = [];
+    this.streetViewService = new google.maps.StreetViewService();
+    this.radius = 50;
+    this.pitch = 30;
+    this.clickedMarker = null;
     this.infoWindow = new google.maps.InfoWindow();
     this.bounds = new google.maps.LatLngBounds();
     this.styledMapType = new google.maps.StyledMapType(
@@ -33,7 +37,6 @@ class Map {
       }
     });
     this.map.mapTypes.set('styled_map', this.styledMapType);
-    // this.map.setMapTypeId('styled_map');
   }
 
   addMarker (name, lt, ln, caption) {
@@ -55,16 +58,39 @@ class Map {
   }
 
   markerClick (name) {
-    const marker = this.markers.find(elem => elem.name === name);
+    this.clickedMarker = this.markers.find(elem => elem.name === name);
 
-    if (this.infoWindow.marker === marker.marker) {return;}
+    if (this.infoWindow.marker === this.clickedMarker.marker) {return;}
 
-    this.infoWindow.marker = marker.marker;
-    this.infoWindow.setContent(
-      `<h4>${marker.caption}: ${marker.marker.getPosition().lat()}, ${marker.marker.getPosition().lng()}</h4>`);
-    this.infoWindow.open(this.map, marker.marker);
+    this.infoWindow.marker = this.clickedMarker.marker;
+    this.infoWindow.setContent('');
     this.infoWindow.addListener('closeclick', () => {this.infoWindow.marker = null;});
+    Window.call(this, this.streetViewService.getPanoramaByLocation(this.clickedMarker.marker.position, this.radius, this.getStreetView));
+    this.infoWindow.open(this.map, this.clickedMarker.marker);
+  }
 
+  getStreetView (data, status) {
+    if (status !== google.maps.StreetViewStatus.OK) {
+      this.infoWindow.setContent(
+        `<h4>${this.clickedMarker.caption}: ${this.clickedMarker.marker.getPosition().lat()}, ${this.clickedMarker.marker.getPosition().lng()}</h4>
+       <p>No Street View Found!</p>`);
+      return;
+    }
+
+    const nearStreetViewLocation = data.location.latLng;
+    const heading = google.maps.geometry.spherical.computeHeading(
+      nearStreetViewLocation, this.clickedMarker.marker.position);
+    this.infoWindow.setContent(
+      `<h4>${this.clickedMarker.caption}: ${this.clickedMarker.marker.getPosition().lat()}, ${this.clickedMarker.marker.getPosition().lng()}</h4>
+       <div id="pano"></div>`);
+    const panoramaOptions = {
+      position: nearStreetViewLocation,
+      pov: {
+        heading: heading,
+        pitch: this.pitch
+      }
+    };
+    google.maps.StreetViewPanorama($('#pano').get(0), panoramaOptions);
   }
 
   showMarkers () {

@@ -5,10 +5,22 @@ class Map {
   constructor () {
     this.home = {lat: 55.813044, lng: 37.572087};
     this.markers = [];
-    this.streetViewService = new google.maps.StreetViewService();
+    this.polygon = null;
     this.radius = 30;
     this.pitch = 10;
     this.clickedMarker = null;
+    this.streetViewService = new google.maps.StreetViewService();
+    this.drawingManager = new google.maps.drawing.DrawingManager({
+      drawingMode: google.maps.drawing.OverlayType.POLYGON,
+      drawingControl: true,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_LEFT,
+        drawingModes: [
+          google.maps.drawing.OverlayType.POLYGON
+        ]
+      }
+    });
+    this.drawingManager.addListener('overlaycomplete', (event) => {this.drawComplete(event);});
     this.infoWindow = new google.maps.InfoWindow();
     this.bounds = new google.maps.LatLngBounds();
     this.styledMapType = new google.maps.StyledMapType(
@@ -99,11 +111,53 @@ class Map {
   }
 
   showMarkers () {
-    this.markers.forEach(elem => elem.marker.setMap(this.map));
+    this.markers.forEach(elem => {
+      if (!this.polygon ||
+          !this.polygon.getMap() ||
+          google.maps.geometry.poly.containsLocation(elem.marker.position, this.polygon)) {
+        elem.marker.setMap(this.map);
+      }
+    });
   }
 
   hideMarkers () {
     this.markers.forEach((elem => elem.marker.setMap(null)));
+  }
+
+  showDrawer () {
+    if (!this.drawingManager.map) {
+      this.drawingManager.setMap(this.map);
+    } else {
+      this.drawingManager.setMap(null);
+      if (this.polygon !== null) {
+        this.polygon.setMap(null);
+      }
+    }
+  }
+
+  drawComplete(event) {
+    if (this.polygon) {
+      this.polygon.setMap(null);
+      this.hideMarkers();
+    }
+
+    this.drawingManager.setDrawingMode(null);
+
+    this.polygon = event.overlay;
+    this.polygon.setEditable(true);
+    this.searchWithinPolygon();
+    this.polygon.getPath().addListener('set_at', () => {this.searchWithinPolygon();});
+    this.polygon.getPath().addListener('insert_at', () => {this.searchWithinPolygon();});
+  }
+
+  searchWithinPolygon () {
+    this.markers.forEach( (elem) => {
+      if (google.maps.geometry.poly.containsLocation(elem.marker.position, this.polygon)) {
+        elem.marker.setMap(this.map);
+      } else {
+        elem.marker.setMap(null);
+      }
+    });
   }
 }
 
@@ -111,6 +165,7 @@ function initMap () {
   const map = new Map();
   $('#btn-show').click(() => map.showMarkers());
   $('#btn-hide').click(() => map.hideMarkers());
+  $('#btn-draw').click(() => map.showDrawer());
   map.addMarker('home', 55.813044, 37.572087, 'Home');
   map.addMarker('work', 55.696986, 37.625556, 'Work');
   map.fit();

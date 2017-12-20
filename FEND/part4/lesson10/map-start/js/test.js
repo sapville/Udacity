@@ -8,6 +8,7 @@ class Map {
     this.polygon = null;
     this.radius = 30;
     this.pitch = 10;
+    this.zoom = 17;
     this.clickedMarker = null;
     this.streetViewService = new google.maps.StreetViewService();
     this.drawingManager = new google.maps.drawing.DrawingManager({
@@ -43,7 +44,7 @@ class Map {
     );
     this.map = new google.maps.Map($('#map').get(0), {
       center: this.home,
-      zoom: 17,
+      zoom: this.zoom,
       mapTypeControlOptions: {
         mapTypeIds: ['roadmap', 'styled_map']
       }
@@ -113,8 +114,8 @@ class Map {
   showMarkers () {
     this.markers.forEach(elem => {
       if (!this.polygon ||
-          !this.polygon.getMap() ||
-          google.maps.geometry.poly.containsLocation(elem.marker.position, this.polygon)) {
+        !this.polygon.getMap() ||
+        google.maps.geometry.poly.containsLocation(elem.marker.position, this.polygon)) {
         elem.marker.setMap(this.map);
       }
     });
@@ -135,14 +136,13 @@ class Map {
     }
   }
 
-  drawComplete(event) {
+  drawComplete (event) {
     if (this.polygon) {
       this.polygon.setMap(null);
       this.hideMarkers();
     }
 
     this.drawingManager.setDrawingMode(null);
-
     this.polygon = event.overlay;
     this.polygon.setEditable(true);
     this.searchWithinPolygon();
@@ -151,13 +151,48 @@ class Map {
   }
 
   searchWithinPolygon () {
-    this.markers.forEach( (elem) => {
+    this.markers.forEach((elem) => {
       if (google.maps.geometry.poly.containsLocation(elem.marker.position, this.polygon)) {
         elem.marker.setMap(this.map);
       } else {
         elem.marker.setMap(null);
       }
     });
+  }
+
+  calcArea () {
+    if (!this.polygon || !this.polygon.getMap()) {
+      alert('There is no polygons on the map');
+    } else {
+      const area = google.maps.geometry.spherical.computeArea(this.polygon.getPath());
+      alert(`The area of the polygon is ${area} square meters`);
+    }
+  }
+
+  centerMap () {
+    const geocoder = new google.maps.Geocoder();
+    const address = $('#address').val();
+    if (!address) {
+      alert('Enter the address');
+    } else {
+      geocoder.geocode({
+        address: address,
+        componentRestrictions: {locality: 'Moscow'}
+      }, (results, status) => {
+        console.log(status);
+        if (status !== google.maps.GeocoderStatus.OK) {
+          alert('The entered address cannot be found');
+        } else {
+          const address = $('#address');
+          address.siblings('p').remove();
+          address.after(
+            `<p>${results[0].formatted_address}</p>
+             <p>${results[0].geometry.location.lat()}, ${results[0].geometry.location.lng()}</p>`);
+          this.map.setCenter(results[0].geometry.location);
+          this.map.setZoom(this.zoom);
+        }
+      });
+    }
   }
 }
 
@@ -166,6 +201,8 @@ function initMap () {
   $('#btn-show').click(() => map.showMarkers());
   $('#btn-hide').click(() => map.hideMarkers());
   $('#btn-draw').click(() => map.showDrawer());
+  $('#btn-calc').click(() => map.calcArea());
+  $('#btn-geo').click(() => map.centerMap());
   map.addMarker('home', 55.813044, 37.572087, 'Home');
   map.addMarker('work', 55.696986, 37.625556, 'Work');
   map.fit();

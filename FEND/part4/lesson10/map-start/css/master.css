@@ -1,10 +1,30 @@
-input {
+body {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*
+* {
+  border: red 1px solid;
+}
+*/
+
+.button {
   background-color: #fff;
   border: #000 1px solid;
   border-radius: 5px;
   height: 40px;
   margin: 5px;
-  width: 100px;
+  width: 120px;
+}
+
+.input {
+  border: #000 1px solid;
+  border-radius: 5px;
+  font-size: 1em;
+  margin: 5px;
+  padding: 5px;
+  width: 90%;
 }
 
 .container {
@@ -21,6 +41,7 @@ input {
 }
 
 .manager {
+  padding: 5px;
   width: 20%;
 }
 

@@ -6,8 +6,8 @@ class Map {
     this.home = {lat: 55.813044, lng: 37.572087};
     this.markers = [];
     this.streetViewService = new google.maps.StreetViewService();
-    this.radius = 50;
-    this.pitch = 30;
+    this.radius = 30;
+    this.pitch = 10;
     this.clickedMarker = null;
     this.infoWindow = new google.maps.InfoWindow();
     this.bounds = new google.maps.LatLngBounds();
@@ -65,7 +65,10 @@ class Map {
     this.infoWindow.marker = this.clickedMarker.marker;
     this.infoWindow.setContent('');
     this.infoWindow.addListener('closeclick', () => {this.infoWindow.marker = null;});
-    Window.call(this, this.streetViewService.getPanoramaByLocation(this.clickedMarker.marker.position, this.radius, this.getStreetView));
+    this.streetViewService.getPanoramaByLocation(
+      this.clickedMarker.marker.position,
+      this.radius,
+      (data, status) => {this.getStreetView(data, status);});
     this.infoWindow.open(this.map, this.clickedMarker.marker);
   }
 
@@ -90,7 +93,9 @@ class Map {
         pitch: this.pitch
       }
     };
-    google.maps.StreetViewPanorama($('#pano').get(0), panoramaOptions);
+    console.log(panoramaOptions);
+    const panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+    panorama.setVisible(true);
   }
 
   showMarkers () {

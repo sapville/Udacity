@@ -23,3 +23,8 @@ input {
 .manager {
   width: 20%;
 }
+
+#pano {
+  height: 300px;
+  width: 300px;
+}

@@ -27,6 +27,17 @@ body {
   width: 90%;
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.distance-select {
+  font-size: 0.8em;
+  padding: 0;
+  margin: 5px 2px;
+}
+
 .container {
   height: 100%;
   display: flex;
@@ -48,4 +59,12 @@ body {
 #pano {
   height: 300px;
   width: 300px;
+}
+
+.text {
+  margin: 5px 0;
+}
+
+.small-button {
+  width: 50px;
 }

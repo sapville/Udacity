@@ -194,6 +194,27 @@ class Map {
       });
     }
   }
+
+  searchWithinTime () {
+    const distanceMatrixService = new google.maps.DistanceMatrixService();
+    const address = $('#search-within-time-text').val();
+    if (!address) {
+      alert('You must enter the address');
+      return;
+    }
+
+    this.hideMarkers();
+    distanceMatrixService.getDistanceMatrix({
+      origins: this.markers.map( elem => elem.marker.position ),
+      destinations: [address],
+      travelMode: $('#mode').val(),
+      unitSystem: google.maps.UnitSystem.METRIC
+    }, (response, status) => {this.displayMarkersWithinTime(response, status);});
+  }
+
+  displayMarkersWithinTime(response, status) {
+    console.log(response, status);
+  }
 }
 
 function initMap () {
@@ -203,6 +224,7 @@ function initMap () {
   $('#btn-draw').click(() => map.showDrawer());
   $('#btn-calc').click(() => map.calcArea());
   $('#btn-geo').click(() => map.centerMap());
+  $('#btn-matrix').click(() => map.searchWithinTime());
   map.addMarker('home', 55.813044, 37.572087, 'Home');
   map.addMarker('work', 55.696986, 37.625556, 'Work');
   map.fit();

@@ -106,7 +106,6 @@ class Map {
         pitch: this.pitch
       }
     };
-    console.log(panoramaOptions);
     const panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
     panorama.setVisible(true);
   }
@@ -122,7 +121,10 @@ class Map {
   }
 
   hideMarkers () {
-    this.markers.forEach((elem => elem.marker.setMap(null)));
+    this.markers.forEach((elem => {
+      elem.marker.setMap(null);
+    }));
+
   }
 
   showDrawer () {
@@ -179,7 +181,6 @@ class Map {
         address: address,
         componentRestrictions: {locality: 'Moscow'}
       }, (results, status) => {
-        console.log(status);
         if (status !== google.maps.GeocoderStatus.OK) {
           alert('The entered address cannot be found');
         } else {
@@ -205,15 +206,38 @@ class Map {
 
     this.hideMarkers();
     distanceMatrixService.getDistanceMatrix({
-      origins: this.markers.map( elem => elem.marker.position ),
+      origins: this.markers.map(elem => elem.marker.position),
       destinations: [address],
       travelMode: $('#mode').val(),
       unitSystem: google.maps.UnitSystem.METRIC
     }, (response, status) => {this.displayMarkersWithinTime(response, status);});
   }
 
-  displayMarkersWithinTime(response, status) {
-    console.log(response, status);
+  displayMarkersWithinTime (response, status) {
+    let oneFound = false;
+    if (status !== google.maps.DistanceMatrixStatus.OK) {
+      alert('The distance was measured with error ' + status);
+    } else {
+      for (let i = 0; i < response.rows.length; i++) {
+        response.rows[i].elements.forEach((elem) => {
+          if (elem.status === 'OK' && elem.duration.value <= $('#max-duration').val() * 60) {
+            this.markers[i].marker.setMap(this.map);
+            const infoWindow = new google.maps.InfoWindow({
+              content: `${elem.duration.text} away, ${elem.distance.text}`
+            });
+            infoWindow.open(this.map, this.markers[i].marker);
+            this.markers[i].infoWindow = infoWindow;
+            google.maps.event.addListener(this.markers[i].marker, 'click', () => {infoWindow.close();});
+            oneFound = true;
+          } else {
+            this.markers[i].marker.setMap(null);
+          }
+        });
+      }
+      if (!oneFound) {
+        alert('No places within the distance');
+      }
+    }
   }
 }
 

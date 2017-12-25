@@ -56,6 +56,7 @@ class Map {
     const len = this.markers.push({
       name: name,
       caption: caption,
+      origin: null,
       marker: new google.maps.Marker({
         position: {lat: lt, lng: ln},
         animation: google.maps.Animation.DROP
@@ -215,15 +216,21 @@ class Map {
 
   displayMarkersWithinTime (response, status) {
     let oneFound = false;
+    this.markers.forEach((elem) => {elem.origin = null;});
     if (status !== google.maps.DistanceMatrixStatus.OK) {
       alert('The distance was measured with error ' + status);
     } else {
       for (let i = 0; i < response.rows.length; i++) {
+        const marker = this.markers[i];
+        marker.origin = response.originAddresses[i];
         response.rows[i].elements.forEach((elem) => {
           if (elem.status === 'OK' && elem.duration.value <= $('#max-duration').val() * 60) {
-            this.markers[i].marker.setMap(this.map);
+            marker.marker.setMap(this.map);
             const infoWindow = new google.maps.InfoWindow({
-              content: `${elem.duration.text} away, ${elem.distance.text}`
+              content: `
+                ${elem.duration.text} away, ${elem.distance.text}
+                <div><input class="btn-route button" type="button" value="View Route" id="${marker.name}"></div>
+                `
             });
             infoWindow.open(this.map, this.markers[i].marker);
             this.markers[i].infoWindow = infoWindow;
@@ -239,6 +246,47 @@ class Map {
       }
     }
   }
+
+  static DisplayDirections (map, origin) {
+    if (!origin) {
+      alert('No original addresses are given');
+      return;
+    }
+
+    const directionsService = new google.maps.DirectionsService();
+    const destinationAddress = $('#search-within-time-text').val();
+    const mode = $('#mode').val();
+
+    directionsService.route(
+      {
+        origin: origin,
+        destination: destinationAddress,
+        travelMode: google.maps.TravelMode[mode]
+      },
+      function (response, status) {
+        if (status !== google.maps.DirectionsStatus.OK) {
+          alert('Direction request failed due to ' + status);
+        } else {
+          const directionsDisplay = new google.maps.DirectionsRenderer({
+            map: map,
+            directions: response,
+            draggable: true,
+            polylineOptions: {strokeColor: 'green'}
+          });
+        }
+      });
+  }
+
+  routeClick (event) {
+
+    const map = event.data.ref;
+
+    map.hideMarkers();
+    Map.DisplayDirections(
+      map.map,
+      map.markers.find(elem => elem.name === $(event.target).attr('id')).origin
+    );
+  }
 }
 
 function initMap () {
@@ -249,6 +297,7 @@ function initMap () {
   $('#btn-calc').click(() => map.calcArea());
   $('#btn-geo').click(() => map.centerMap());
   $('#btn-matrix').click(() => map.searchWithinTime());
+  $('.map').on('click', '.btn-route', {ref: map}, map.routeClick);
   map.addMarker('home', 55.813044, 37.572087, 'Home');
   map.addMarker('work', 55.696986, 37.625556, 'Work');
   map.fit();

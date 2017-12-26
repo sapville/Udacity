@@ -5,6 +5,7 @@ class Map {
   constructor () {
     this.home = {lat: 55.813044, lng: 37.572087};
     this.markers = [];
+    this.placeMarkers = [];
     this.polygon = null;
     this.radius = 30;
     this.pitch = 10;
@@ -50,6 +51,75 @@ class Map {
       }
     });
     this.map.mapTypes.set('styled_map', this.styledMapType);
+    this.zoomAutocomplete = new google.maps.places.Autocomplete(
+      $('#address').get(0)
+    );
+    this.zoomAutocomplete.bindTo('bounds', this.map);
+    this.timeAutoComplete = new google.maps.places.Autocomplete(
+      $('#search-within-time-text').get(0)
+    );
+    this.searchBox = new google.maps.places.SearchBox(
+      $('#places-search').get(0)
+    );
+    this.map.addListener('bounds_changed', () => this.searchBox.setBounds(this.map.getBounds()));
+    this.searchBox.addListener('places_changed', () => this.searchBoxPlaces());
+  }
+
+  searchBoxPlaces () {
+    console.log(this.searchBox.bounds);
+    Map.HideMarkers(this.placeMarkers);
+    const places = this.searchBox.getPlaces();
+    console.log(places);
+    if (places.length === 0) {
+      alert('We did not find any places matching the search');
+    } else {
+      this.createMarkersForPlaces(places);
+    }
+  }
+
+  textSearchPlaces () {
+    const searchText = $('#places-search').val();
+    if (!searchText) {
+      alert('Enter the search string');
+      return;
+    }
+    Map.HideMarkers(this.placeMarkers);
+    new google.maps.places.PlacesService(this.map)
+      .textSearch({
+        query: searchText,
+        bounds: this.map.getBounds()
+      },
+      (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          this.createMarkersForPlaces(results);
+        }
+      });
+  }
+
+  createMarkersForPlaces (places) {
+    const bounds = new google.maps.LatLngBounds();
+    places.forEach(place => {
+      const marker = new google.maps.Marker({
+        map: this.map,
+        icon: {
+          url: place.icon,
+          size: new google.maps.Size(35, 35),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(15, 34),
+          scaledSize: new google.maps.Size(25, 25)
+        },
+        title: place.name,
+        position: place.geometry.location,
+        id: place.id
+      });
+      this.placeMarkers.push(marker);
+      if (place.geometry.viewport) {
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+      this.map.fitBounds(bounds);
+    });
   }
 
   addMarker (name, lt, ln, caption) {
@@ -121,9 +191,13 @@ class Map {
     });
   }
 
-  hideMarkers () {
-    this.markers.forEach((elem => {
-      elem.marker.setMap(null);
+  static HideMarkers (markers) {
+    markers.forEach((elem => {
+      if (elem.marker) {
+        elem.marker.setMap(null);
+      } else {
+        elem.setMap(null);
+      }
     }));
 
   }
@@ -142,7 +216,7 @@ class Map {
   drawComplete (event) {
     if (this.polygon) {
       this.polygon.setMap(null);
-      this.hideMarkers();
+      Map.HideMarkers(this.markers);
     }
 
     this.drawingManager.setDrawingMode(null);
@@ -205,7 +279,7 @@ class Map {
       return;
     }
 
-    this.hideMarkers();
+    Map.HideMarkers(this.markers);
     distanceMatrixService.getDistanceMatrix({
       origins: this.markers.map(elem => elem.marker.position),
       destinations: [address],
@@ -281,7 +355,7 @@ class Map {
 
     const map = event.data.ref;
 
-    map.hideMarkers();
+    Map.HideMarkers(map.markers);
     Map.DisplayDirections(
       map.map,
       map.markers.find(elem => elem.name === $(event.target).attr('id')).origin
@@ -292,11 +366,12 @@ class Map {
 function initMap () {
   const map = new Map();
   $('#btn-show').click(() => map.showMarkers());
-  $('#btn-hide').click(() => map.hideMarkers());
+  $('#btn-hide').click(() => Map.HideMarkers(map.markers));
   $('#btn-draw').click(() => map.showDrawer());
   $('#btn-calc').click(() => map.calcArea());
   $('#btn-geo').click(() => map.centerMap());
   $('#btn-matrix').click(() => map.searchWithinTime());
+  $('#btn-places').click(() => map.textSearchPlaces());
   $('.map').on('click', '.btn-route', {ref: map}, map.routeClick);
   map.addMarker('home', 55.813044, 37.572087, 'Home');
   map.addMarker('work', 55.696986, 37.625556, 'Work');

@@ -39,11 +39,18 @@
                    placeholder="Ex: Новоданиловская наб., 10">
             <input class="button small-button" id="btn-matrix" type="button" value="Go">
         </div>
-
+        <hr>
+        <div class="row">
+            <span class="text">Search for nearby places</span>
+        </div>
+        <div class="row">
+            <input class="input" id="places-search" type="text" placeholder="Ex: доставка пиццы">
+            <input class="button small-button" id="btn-places" type="button" value="Go">
+        </div>
     </div>
     <div id="map" class="map"></div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOPYXNAFOVDoakdOLtdqpI71E3erG-RkQ&v=3&libraries=geometry,drawing&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOPYXNAFOVDoakdOLtdqpI71E3erG-RkQ&v=3&libraries=geometry,drawing,places&callback=initMap"
         async defer></script>
 </body>
 </html>
